@@ -2,6 +2,8 @@ import {addDoc, collection, getDocs} from 'firebase/firestore';
 import {db} from '@/utils/firebase';
 
 export const createRecord = async (e:any) => {
+  e.preventDefault()
+  
   // Add a second document with a generated ID.
   
   try {
@@ -19,6 +21,7 @@ export const createRecord = async (e:any) => {
 };
 
 export const readDB = async (e:any) => {
+  e.preventDefault()
   const querySnapshot = await getDocs(collection(db, "users"));
   querySnapshot.forEach((doc) => {
     console.log(`${doc.id} => ${doc.data().first} ${doc.data().middle} ${doc.data().last} ${doc.data().born}`);
