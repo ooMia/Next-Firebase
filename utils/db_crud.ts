@@ -5,7 +5,6 @@ export const createRecord = async (e:any) => {
   e.preventDefault()
   
   // Add a second document with a generated ID.
-  
   try {
     const docRef = await addDoc(collection(db, 'users'), {
       first: 'Alan',
