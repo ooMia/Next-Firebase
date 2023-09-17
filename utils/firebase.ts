@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import {initializeApp} from 'firebase/app';
-import { getFirestore } from "firebase/firestore";
+import {Firestore, getFirestore} from "firebase/firestore";
 import {FirebaseOptions} from '@firebase/app-types';
 
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -19,4 +19,4 @@ const firebaseConfig: FirebaseOptions = {
 const app = initializeApp(firebaseConfig);
 
 // Initialize Cloud Firestore and get a reference to the service
-export const db = getFirestore(app);
+export const db:Firestore = getFirestore(app);

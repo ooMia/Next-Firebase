@@ -1,44 +1,49 @@
 'use client'
 
 import Button from "@/components/Button";
-import Input from "@/components/input";
-import {createRecord, getRecordsByKeyValue, printQuerySnapshot} from "@/utils/db_crud";
+import Input from "@/components/Input";
+import {createDocument, getDocumentsByKeyValue, printQuerySnapshot, updateDocumentsByKeyValue} from "@/utils/db_crud";
 
 const Page = () => {
+
     const wdInfo = [
         {type: "text", name: "company"},
         {type: "text", name: "title"},
         {type: "text", name: "description"},
-        {type: "file", name: "thumbnail"},
+        {type: "url", name: "thumbnail"},
+        {type: "number", name: "category"},
+        {type: "number", name: "subcategory"},
     ]
 
     const onSubmitCallback = async (e: any) => {
         e.preventDefault()
         // console.log(e.target)
-        const company = e.target[0].value
+        const company = encodeURIComponent(e.target[0].value)
         const querySnapshot
-            = await getRecordsByKeyValue(e, 'wdList', "company", company)
+            = await getDocumentsByKeyValue(e, 'wdList', "company", company)
+
+        const obj: any = {}
+        for (let i = 0; i < e.target.length - 1; ++i) {
+            const key = wdInfo[i].name
+            let value = e.target[i].value
+            obj[key] = value
+            if (wdInfo[i].type == "text")
+                obj[key] = encodeURIComponent(value)
+            if (wdInfo[i].type == "number")
+                obj[key] = parseInt(value)
+        }
+        // console.log(`${Object.keys(obj)}`)
 
 
         if (querySnapshot.empty) {
-            // CREATE
-            const obj: any = {}
-
-            for (let i = 0; i < e.target.length - 1; ++i) {
-                const key = wdInfo[i].name
-                const value = e.target[i].value
-                obj[key] = value
-            }
-            // console.log(`${Object.keys(obj)}`)
-            await createRecord(e, 'wdList', obj)
+            await createDocument(e, 'wdList', obj)
         } else {
-            // UPDATE
-
+            await updateDocumentsByKeyValue(e, 'wdList', "company", company, obj)
         }
 
         // CHECK
         const q
-            = await getRecordsByKeyValue(e, 'wdList', "company", company)
+            = await getDocumentsByKeyValue(e, 'wdList', "company", company)
         await printQuerySnapshot(q)
     }
 

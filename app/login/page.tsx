@@ -6,7 +6,7 @@ import Apple from "@/public/apple.svg"
 import Google from "@/public/google.svg"
 import Kakao from "@/public/kakao.svg"
 import Form from "@/components/Form";
-import {createRecord, getRecordsByKeyValue, printQuerySnapshot} from "@/utils/db_crud";
+import {createDocument, getDocumentsByKeyValue, printQuerySnapshot} from "@/utils/db_crud";
 
 const Page = () => {
 
@@ -23,10 +23,10 @@ const Page = () => {
         }
 
         const querySnapshot
-            = await getRecordsByKeyValue(e, 'users', "email", userInput)
+            = await getDocumentsByKeyValue(e, 'users', "email", userInput)
 
         if (querySnapshot.empty) {
-            await createRecord(e, 'users', obj)
+            await createDocument(e, 'users', obj)
         } else {
             printQuerySnapshot(querySnapshot)
         }
