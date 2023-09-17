@@ -9,7 +9,7 @@ export async function generateStaticParams() {
 
     let companies: any = []
     docs.forEach(d => {
-        companies.push({company: d.data().company})
+        companies.push({company: decodeURIComponent(d.data().company)})
     })
 
     return companies
@@ -50,9 +50,9 @@ export default async function SSG({params}: any) {
         res.push(obj)
     });
 
-    return (<div className={`w-full`}>
+    return (<div className={`w-full bg-gray-50`}>
         <Image
-            className={'top-0 w-full'}
+            className={'top-0 object-cover w-full max-h-52'}
             width={500}
             height={300}
             src={res[0].thumbnail}

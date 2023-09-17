@@ -1,6 +1,11 @@
 // Import the functions you need from the SDKs you need
 import {initializeApp} from 'firebase/app';
-import {Firestore, getFirestore} from "firebase/firestore";
+import {
+  Firestore,
+  getFirestore,
+  initializeFirestore,
+  memoryLocalCache,
+} from 'firebase/firestore';
 import {FirebaseOptions} from '@firebase/app-types';
 
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -17,6 +22,37 @@ const firebaseConfig: FirebaseOptions = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+
+
+// Memory cache is the default if no config is specified.
+// initializeFirestore(app);
+
+// This is the default behavior if no persistence is specified.
+initializeFirestore(app, {localCache: memoryLocalCache()});
+
+// Defaults to single-tab persistence if no tab manager is specified.
+// initializeFirestore(app, {localCache: persistentLocalCache(
+//     /*settings*/{
+//         cacheSizeBytes: CACHE_SIZE_UNLIMITED
+//       })});
+
+// // Same as `initializeFirestore(app, {localCache: persistentLocalCache(/*settings*/{})})`,
+// // but more explicit about tab management.
+// initializeFirestore(app,
+//     {localCache:
+//           persistentLocalCache(/*settings*/{tabManager: persistentSingleTabManager()})
+//     });
+//
+// // Use multi-tab IndexedDb persistence.
+// initializeFirestore(app,
+//     {localCache:
+//           persistentLocalCache(/*settings*/{tabManager: persistentMultipleTabManager()})
+//     });
+
+
+
+
 
 // Initialize Cloud Firestore and get a reference to the service
 export const db:Firestore = getFirestore(app);
