@@ -1,8 +1,7 @@
 'use client'
 
-import { useCallback, useState } from 'react'
+import { Suspense, useCallback, useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import NewProduct from '@/components/NewProduct'
 import dynamic from 'next/dynamic'
 
 function Page() {
@@ -77,9 +76,11 @@ function Page() {
           )}
         </div>
       </form>
-      <div className={`grid  md:grid-cols-4 grid-cols-2`}>
-        <NewProduct category={category} subcategory={subcategory} />
-      </div>
+      <Suspense>
+        <div className={`grid  md:grid-cols-4 grid-cols-2`}>
+          <NewProduct category={category} subcategory={subcategory} />
+        </div>
+      </Suspense>
     </div>
   )
 }

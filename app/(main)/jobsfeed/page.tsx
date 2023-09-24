@@ -1,26 +1,20 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 export default function Page() {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
-  const [windowHeight, setWindowHeight] = useState(window.innerHeight)
+  const [windowWidth, setWindowWidth] = useState(0)
+  const [windowHeight, setWindowHeight] = useState(0)
 
-  const handleWidthResize = () => {
+  const a = useCallback(() => {
     setWindowWidth(window.innerWidth)
-  }
-  const handleHeightResize = () => {
     setWindowHeight(window.innerHeight)
-  }
+  }, [])
 
   useEffect(() => {
-    window.addEventListener('resize', handleWidthResize)
-    window.addEventListener('resize', handleHeightResize)
-    return () => {
-      window.removeEventListener('resize', handleWidthResize)
-      window.removeEventListener('resize', handleHeightResize)
-    }
-  }, [])
+    window.addEventListener('resize', a)
+    return window.removeEventListener('resize', a)
+  }, [a])
 
   return (
     <div>
