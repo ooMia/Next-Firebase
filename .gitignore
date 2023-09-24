@@ -36,3 +36,4 @@ next-env.d.ts
 
 # WebStorm
 .idea
+/next-firebase-8db66-firebase-adminsdk-20e37-ae004d97d1.json

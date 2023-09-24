@@ -12,22 +12,27 @@ const nextConfig = {
         hostname: 'static.wanted.co.kr',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+        pathname: '/u/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+        pathname: '/**',
+      },
     ],
   },
   async redirects() {
     return [
       {
         source: '/',
-        destination: '/wd/register',
+        destination: '/jobsfeed',
         permanent: true,
       },
-    ];
+    ]
   },
-  //https://nextjs.org/docs/pages/building-your-application/data-fetching/incremental-static-regeneration#self-hosting-isr
-  // experimental: {
-  //   // Defaults to 50MB
-  //   isrMemoryCacheSize: 0, // cache size in bytes
-  // },
-};
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig
