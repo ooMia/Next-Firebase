@@ -2,6 +2,7 @@
 
 import { Suspense, useCallback, useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import NewProduct from '@/components/NewProduct'
 import dynamic from 'next/dynamic'
 
 function Page() {
@@ -33,11 +34,6 @@ function Page() {
     { id: 2, name: 'B' },
     { id: 3, name: 'C' },
   ]
-
-  const NewProduct = dynamic(() => import('@/components/NewProduct'), {
-    ssr: true,
-    loading: () => <div>loading...</div>,
-  })
 
   return (
     <div className={`p-10`}>

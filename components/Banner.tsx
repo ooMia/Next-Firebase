@@ -2,14 +2,9 @@ import Button2 from '@/components/Button2'
 import Wanted from '@/public/wanted.svg'
 import Image from 'next/image'
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
+import BannerProfile from '@/components/BannerProfile'
 
 export default async function Banner() {
-  const BannerProfile = dynamic(() => import('@/components/BannerProfile'), {
-    ssr: true,
-    loading: () => <></>,
-  })
-
   return (
     <div
       className={`flex-row inline-flex justify-between sticky z-50 top-0 left-0 w-full bg-white opacity-90`}

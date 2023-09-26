@@ -16,8 +16,29 @@
   }
 }
 
+*{
+  @apply tracking-tighter
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: rgb(var(--background-end-rgb))
     rgb(var(--background-start-rgb));
 }
+
+.initHoverAnimation{
+  @apply transition ease-in duration-300
+}
+
+.lgComponent {
+    @apply hidden md:block
+}
+
+.mdComponent {
+    @apply lg:hidden
+}
+
+.flexRowGroup {
+  @apply flex flex-row items-center relative
+}
+
