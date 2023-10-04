@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { getDocumentsByCategories } from '@/utils/db_crud'
+import { getDocumentsByCategories } from '@/utils/db_crud_2'
 import Link from 'next/link'
 import { DocumentData } from 'firebase/firestore'
 

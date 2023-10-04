@@ -1,4 +1,4 @@
-import { getDocumentsByKeyValue } from '@/utils/db_crud'
+import { getDocumentsByKeyValue } from '@/utils/db_crud_2'
 import Event from '@/components/Event'
 import Image from 'next/image'
 import { DocumentData } from 'firebase/firestore'

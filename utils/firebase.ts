@@ -1,5 +1,5 @@
 import { FirebaseOptions, getApp, getApps, initializeApp } from 'firebase/app'
-import { Firestore, getFirestore } from 'firebase/firestore'
+import { getFirestore } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth'
 import { FirebaseStorage, getStorage } from 'firebase/storage'
 
@@ -13,7 +13,7 @@ const firebaseConfig: FirebaseOptions = {
 }
 
 const app = getApps.length > 0 ? getApp() : initializeApp(firebaseConfig)
-const db: Firestore = getFirestore(app)
+const db = getFirestore(app)
 const storage: FirebaseStorage = getStorage(app)
 
 // Initialize Firebase Authentication and get a reference to the service

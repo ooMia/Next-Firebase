@@ -36,10 +36,17 @@ export async function getThemesAssociatedJobs(
   company: string,
   limit: number,
   offset: number,
-): Promise<[ThemeJob, string]> {
-  const timestamp = new Date().toString()
-  const json = await getWanted(`/v3/themes/${company}/jobs?limit=${limit}&offset=${offset}`, {
-    next: { revalidate: 60 },
-  })
-  return [json, timestamp]
+): Promise<[ThemeJob, { fetched: Date; requested: Date }]> {
+  const domain: string = `https://www.wanted.co.kr/api`
+  const response = await fetch(
+    `${domain}/v3/themes/${company}/jobs?limit=${limit}&offset=${offset}`,
+    {
+      next: { revalidate: 60 },
+    },
+  )
+  const timestamp = {
+    fetched: new Date(response.headers.get('date')!!),
+    requested: new Date(),
+  }
+  return [await response.json(), timestamp]
 }

@@ -6,7 +6,7 @@ import Apple from '@/public/apple.svg'
 import Google from '@/public/google.svg'
 import Kakao from '@/public/kakao.svg'
 import Form from '@/components/Form'
-import { createDocument, getDocumentsByKeyValue, printQuerySnapshot } from '@/utils/db_crud'
+import { createDocument, getDocumentsByKeyValue, printQuerySnapshot } from '@/utils/db_crud_2'
 import { signIn } from 'next-auth/react'
 
 const Page = () => {

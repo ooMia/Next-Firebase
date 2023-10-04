@@ -1,5 +1,6 @@
 import { getThemesAssociatedJobs } from '@/backend/api/wantedAPI'
-import { getDocumentsByKeyValue, readDocuments } from '@/utils/db_crud'
+import { fetchDataFromWantedAPI } from '@/utils/db_crud'
+import { readDocuments } from '@/utils/db_crud_2'
 
 export async function generateStaticParams() {
   const docs = await readDocuments(undefined, 'wdList')
@@ -18,13 +19,9 @@ export async function generateStaticParams() {
 export default async function SSG({ params }: { params: { company: string } }) {
   const { company } = params
 
-  const docsFromDB = await getDocumentsByKeyValue(
-    undefined,
-    'wdList',
-    'company',
-    encodeURIComponent(company),
-  )
-  const [docsFromAPI, timestamp] = await getThemesAssociatedJobs(company, 20, 0)
+  const [docsFromDB, timestampDB] = await fetchDataFromWantedAPI('test', 'kakaovc', 20, 0)
+  // const docsFromDB = await getDocumentsBy()
+  const [docsFromAPI, timestampAPI] = await getThemesAssociatedJobs(company, 20, 0)
 
   // const res: any[] = []
   // docs.forEach((doc: DocumentData) => {
@@ -52,21 +49,57 @@ export default async function SSG({ params }: { params: { company: string } }) {
   //   res.push(obj)
   // })
 
-  console.log(docsFromDB.empty)
+  // console.log(docsFromDB)
   // console.log(company)
   // console.log(docsFromAPI.at(0))
 
+  // console.log(timestampAPI)
+
+  const timeDiffString = (a: Date, b: Date) => {
+    const aa = a.getMinutes() * 60 + a.getSeconds()
+    const bb = b.getMinutes() * 60 + b.getSeconds()
+    const cc = Math.abs(aa - bb)
+    const dd = { minutes: Math.floor(cc / 60), seconds: cc % 60 }
+    return `${dd.minutes < 10 ? `0${dd.minutes}` : dd.minutes}:${
+      dd.seconds < 10 ? `0${dd.seconds}` : dd.seconds
+    }`
+  }
+
   return (
     <div className={`flex flex-col gap-2 w-full bg-gray-50`}>
-      <div>
-        <h3>docsFromAPI</h3>
-        <p>{docsFromAPI.data.at(0)?.id}</p>
-        <p>{timestamp}</p>
+      <div className={`grid grid-cols-2 justify-items-end m-10`}>
+        <h3 className={`col-span-2 `}>
+          <b className={` mr-1 text-red-600`}>{docsFromAPI.data ? 'Succeed' : 'Failed'}</b>
+          fetchDataFromWantedAPI
+        </h3>
+        <h3>requested time</h3>
+        <p>{timestampAPI.requested.toUTCString()}</p>
+
+        <h3>fetched time</h3>
+        <p>{timestampAPI.fetched.toUTCString()}</p>
+
+        <h3>time difference</h3>
+        <p className={`mr-9`}>{timeDiffString(timestampAPI.fetched, timestampAPI.requested)}</p>
       </div>
-      <div>
-        <h3>docsFromDB</h3>
-        <p>{docsFromDB.size}</p>
-        <p>{timestamp}</p>
+      <div className={`grid grid-cols-2 justify-items-end m-10`}>
+        <h3 className={`col-span-2 `}>
+          <b className={` mr-1 text-red-600`}>{docsFromDB ? 'Succeed' : 'Failed'}</b>
+          getDocumentsFromFireStoreDB
+        </h3>
+        <h3>requested time</h3>
+        <p>{timestampDB.requested.seconds}</p>
+
+        <h3>fetched time</h3>
+        <p>{timestampDB.fetched.seconds}</p>
+
+        <h3>time difference</h3>
+        <p className={`mr-9`}>
+          {/*{() => {*/}
+          {/*  Math.abs(timestampDB.fetched.seconds - timestampDB.requested.seconds)*/}
+          {/*  return <></>*/}
+          {/*}}*/}
+        </p>
+        <p>{docsFromDB && docsFromDB?.data?.at(0)?.id}</p>
       </div>
     </div>
   )

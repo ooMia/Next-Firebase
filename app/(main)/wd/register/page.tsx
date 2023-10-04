@@ -7,7 +7,7 @@ import {
   getDocumentsByKeyValue,
   printQuerySnapshot,
   updateDocumentsByKeyValue,
-} from '@/utils/db_crud'
+} from '@/utils/db_crud_2'
 
 const Page = () => {
   const wdInfo = [
