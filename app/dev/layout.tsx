@@ -1,6 +1,16 @@
-import { ReactElement } from 'react'
+import Navigation from '@/app/dev/(components)/Navigation'
+import { ReactNode } from 'react'
+import BottomBorderBackground from '@/app/dev/(components)/BottomBorderBackground'
 
-export default function Layout({ children }: { children: ReactElement }) {
-  const alignCenter: string = `flex flex-row justify-center`
-  return <>{children}</>
+export default function Layout({ children }: { children: ReactNode }) {
+  return (
+    <>
+      <div className={`sticky top-0 z-10 box-border`}>
+        <BottomBorderBackground>
+          <Navigation />
+        </BottomBorderBackground>
+      </div>
+      {children}
+    </>
+  )
 }

@@ -3,35 +3,34 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 214, 219, 220;
+    --background-end-rgb: 255, 255, 255;
 }
 
 @media (prefers-color-scheme: no-preference) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+    :root {
+        --foreground-rgb: 255, 255, 255;
+        --background-start-rgb: 0, 0, 0;
+        --background-end-rgb: 0, 0, 0;
+    }
 }
 
-*{
-  @apply tracking-tighter
+* {
+    @apply tracking-tighter
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-end-rgb))
-    rgb(var(--background-start-rgb));
+    color: rgb(var(--foreground-rgb));
+    background: rgb(var(--background-end-rgb)) rgb(var(--background-start-rgb));
 }
 
-.initHoverAnimation{
-  @apply transition ease-in duration-300
+.initHoverAnimation {
+    @apply transition ease-in duration-300
 }
 
 .lgComponent {
-    @apply hidden md:block
+    @apply hidden lg:block
 }
 
 .mdComponent {
@@ -39,6 +38,35 @@ body {
 }
 
 .flexRowGroup {
-  @apply flex flex-row items-center relative
+    @apply flex flex-row relative
 }
 
+.flexRowGroupCentered {
+    @apply flexRowGroup items-center justify-center
+}
+
+
+h3 {
+    @apply text-lg lg:text-xl overflow-ellipsis font-semibold tracking-tighter text-black
+}
+
+h4 {
+    @apply lg:text-lg overflow-ellipsis font-semibold tracking-tighter text-black
+}
+
+h5 {
+    @apply text-xs lg:text-sm overflow-ellipsis font-semibold tracking-tighter text-black
+}
+
+.responseRateTagHoverModal ::after {
+    opacity: 0;
+    transition-duration: 0.5s;
+    content: '';
+    width: 82px;
+    height: 5px;
+    background-color: #fff;
+    position: absolute;
+    bottom: 0;
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 2px 2px rgb(0 0 0 / 15%);
+}
