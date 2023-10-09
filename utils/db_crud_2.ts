@@ -31,7 +31,7 @@ export const createDocument = async (e: any, path: string, data: object) => {
   }
 }
 
-export const readDocuments = async (e: any | undefined, path: string) => {
+export const readDocuments = async (path: string) => {
   return await getDocs(collection(db, path))
 }
 

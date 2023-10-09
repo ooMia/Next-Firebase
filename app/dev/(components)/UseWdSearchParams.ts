@@ -16,7 +16,7 @@ import { useState } from 'react'
 // locations=seoul.gangdong-gu
 
 export default function useWdSearchParams(majorCategory?: string) {
-  const data: MinorCategoryType[] = majorCategory ? MinorCategoryDummyData[majorCategory] : []
+  const data: MinorCategoryType[] = majorCategory ? MinorCategoryDummyData[518] : []
   const searchParams = useSearchParams()
 
   const [queries, setQueries] = useState()

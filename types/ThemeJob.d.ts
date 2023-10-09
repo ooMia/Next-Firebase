@@ -1,3 +1,5 @@
+import { ResponseRateType } from '@/types/Region'
+
 export interface ThemeJob {
   total: number
   data: Data[]
@@ -39,7 +41,7 @@ export interface CompanyApplicationResponseStats {
   avg_day: number
   type: string
   avg_rate: number
-  level: string
+  level: ResponseRateType
 }
 
 export interface CategoryTag {

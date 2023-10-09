@@ -1,15 +1,26 @@
+import CenteredComponent from '@/app/dev/(components)/CenteredComponent'
+import { JobCardTheme } from '@/app/dev/(components)/JobCardTheme'
 import { getThemesAssociatedJobs } from '@/backend/api/wantedAPI'
-import { fetchDataFromWantedAPI } from '@/utils/db_crud'
+import { Data } from '@/types/ThemeJob'
+import { selectDocumentByDocumentId } from '@/utils/db_crud'
 import { readDocuments } from '@/utils/db_crud_2'
+import Image from 'next/image'
+
+interface Theme {
+  company: string
+  content: string
+  image: string
+  title: string
+}
 
 export async function generateStaticParams() {
-  const docs = await readDocuments(undefined, 'wdList')
+  const docs = await readDocuments('themes')
 
-  const companies: { company: string }[] = []
+  const companies: string[][] = []
   docs.forEach((d) => {
-    companies.push({ company: decodeURIComponent(d.data().company) })
+    const data = d.data({ serverTimestamps: 'previous' })
+    const company: string = d.id
   })
-
   return companies
 }
 
@@ -18,89 +29,38 @@ export async function generateStaticParams() {
 
 export default async function SSG({ params }: { params: { company: string } }) {
   const { company } = params
+  const docs = await selectDocumentByDocumentId('themes', company)
 
-  const [docsFromDB, timestampDB] = await fetchDataFromWantedAPI('test', 'kakaovc', 20, 0)
   // const docsFromDB = await getDocumentsBy()
-  const [docsFromAPI, timestampAPI] = await getThemesAssociatedJobs(company, 20, 0)
+  const [docsFromAPI, timestampAPI] = await getThemesAssociatedJobs(
+    decodeURIComponent(company),
+    20,
+    0,
+  )
 
-  // const res: any[] = []
-  // docs.forEach((doc: DocumentData) => {
-  //   const data = doc._document.data.value.mapValue.fields
-  //
-  //   console.log(`${doc.id} => `)
-  //
-  //   // interface data {
-  //   //     company?: string
-  //   //     thumbnail?: string
-  //   //     title?: string
-  //   //     description?: string
-  //   //     category?: number
-  //   //     subcategory?: number
-  //   // }
-  //
-  //   let obj: any = {}
-  //   Object.keys(data).map((field) =>
-  //     Object.keys(data[field]).map((type) => {
-  //       const key = field
-  //       const val = data[field][type]
-  //       obj[key] = decodeURIComponent(val)
-  //     }),
-  //   )
-  //   res.push(obj)
-  // })
-
-  // console.log(docsFromDB)
-  // console.log(company)
-  // console.log(docsFromAPI.at(0))
-
-  // console.log(timestampAPI)
-
-  const timeDiffString = (a: Date, b: Date) => {
-    const aa = a.getMinutes() * 60 + a.getSeconds()
-    const bb = b.getMinutes() * 60 + b.getSeconds()
-    const cc = Math.abs(aa - bb)
-    const dd = { minutes: Math.floor(cc / 60), seconds: cc % 60 }
-    return `${dd.minutes < 10 ? `0${dd.minutes}` : dd.minutes}:${
-      dd.seconds < 10 ? `0${dd.seconds}` : dd.seconds
-    }`
-  }
+  // const jobList: ThemeJob = await fetchDataFromWantedAPI('themes', company, 20, 0)
 
   return (
     <div className={`flex flex-col gap-2 w-full bg-gray-50`}>
-      <div className={`grid grid-cols-2 justify-items-end m-10`}>
-        <h3 className={`col-span-2 `}>
-          <b className={` mr-1 text-red-600`}>{docsFromAPI.data ? 'Succeed' : 'Failed'}</b>
-          fetchDataFromWantedAPI
-        </h3>
-        <h3>requested time</h3>
-        <p>{timestampAPI.requested.toUTCString()}</p>
-
-        <h3>fetched time</h3>
-        <p>{timestampAPI.fetched.toUTCString()}</p>
-
-        <h3>time difference</h3>
-        <p className={`mr-9`}>{timeDiffString(timestampAPI.fetched, timestampAPI.requested)}</p>
+      <div className={`relative h-[300px]`}>
+        <Image src={docs.get('image')} alt={docs.id} fill />
       </div>
-      <div className={`grid grid-cols-2 justify-items-end m-10`}>
-        <h3 className={`col-span-2 `}>
-          <b className={` mr-1 text-red-600`}>{docsFromDB ? 'Succeed' : 'Failed'}</b>
-          getDocumentsFromFireStoreDB
-        </h3>
-        <h3>requested time</h3>
-        <p>{timestampDB.requested.seconds}</p>
+      <CenteredComponent>
+        <h3 className={`text-4xl my-8`}>{docs.get('title')}</h3>
 
-        <h3>fetched time</h3>
-        <p>{timestampDB.fetched.seconds}</p>
-
-        <h3>time difference</h3>
-        <p className={`mr-9`}>
-          {/*{() => {*/}
-          {/*  Math.abs(timestampDB.fetched.seconds - timestampDB.requested.seconds)*/}
-          {/*  return <></>*/}
-          {/*}}*/}
-        </p>
-        <p>{docsFromDB && docsFromDB?.data?.at(0)?.id}</p>
-      </div>
+        <h4 className={`text-xl font-normal whitespace-pre-line text-gray-400 leading-8`}>
+          {String(docs.get('content')).replaceAll('<br>', '\n')}
+        </h4>
+      </CenteredComponent>
+      <CenteredComponent>
+        <section className={`grid grid-cols-2 lg:grid-cols-4 gap-4`}>
+          {docsFromAPI.data.map((e: Data) => (
+            <article className={``} key={e.id}>
+              <JobCardTheme props={e} />
+            </article>
+          ))}
+        </section>
+      </CenteredComponent>
     </div>
   )
 }

@@ -1,3 +1,4 @@
+import NavigationProfile from '@/app/dev/(components)/NavigationProfile'
 import Wanted from '@/public/wanted.svg'
 import SearchIcon from '@mui/icons-material/Search'
 import Image from 'next/image'
@@ -61,19 +62,7 @@ export default function Navigation() {
             <OuterHoverAnimation>
               <SearchIcon className={`m-1`} />
             </OuterHoverAnimation>
-            {/*<OuterHoverAnimation>*/}
-            {/*  <NotificationsOutlinedIcon className={`m-1`} />*/}
-            {/*</OuterHoverAnimation>*/}
-            {/*<OuterHoverAnimation className={`text-gray-400`}>*/}
-            {/*  <AccountCircleIcon className={`m-1`} />*/}
-            {/*</OuterHoverAnimation>*/}
-            <Link href={`/dev/login`}>
-              <button
-                className={`px-4 py-2 initHoverAnimation ${roundedBorderBox} hover:bg-gray-200 border-gray-400 text-blue-500 whitespace-nowrap p-1 m-1`}
-              >
-                회원가입<p className={`hidden lg:inline`}>/로그인</p>
-              </button>
-            </Link>
+            <NavigationProfile />
             <Link href={`/dev/dashboard`}>
               <button
                 className={`px-4 py-2 lgComponent initHoverAnimation ${roundedBorderBox} hover:bg-gray-200 border-gray-400 whitespace-nowrap p-1 m-1`}

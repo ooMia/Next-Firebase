@@ -13,7 +13,9 @@ const ResponseRateTag = ({ bg_color, rate, text, text_color }: ResponseRateTagTy
       className={`relative group ${bg_color} ${text_color} rounded text-[11px] font-bold tracking-tighter w-fit p-[3px]`}
     >
       응답률 {text}
-      <div className={`absolute top-[25px] hidden group-hover:block`}>bas</div>
+      <div
+        className={`text-black border rounded p-3 absolute top-[30px] w-[230px] bg-white hidden group-hover:block`}
+      >{`지원 후 응답받을 확률이 ${rate} 이상입니다.`}</div>
     </div>
   )
 }

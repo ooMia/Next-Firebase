@@ -5,12 +5,6 @@ import { ThemeJob } from '@/types/ThemeJob'
 import { type NextRequest } from 'next/server'
 import { WdJobDetail } from '@/types/JobDetail'
 
-export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams
-  const query = searchParams.get('query')
-  // query is "hello" for /api/search?query=hello
-}
-
 export async function getWanted(url: string, options?: RequestInit) {
   const resource = `https://www.wanted.co.kr/api${url}`
   return await fetch(resource, options).then((p) => p.json())
@@ -23,6 +17,18 @@ export async function getWdAssociatedJobs(
   offset: number,
 ): Promise<JobRecommendation[]> {
   const json = await getWanted(`/v4/jobs/${wdId}/associated_jobs?limit=${limit}&offset=${offset}`)
+  return json.data
+}
+
+// Page: [wdlist]
+export async function queryWdListJobs(
+  country: 'all',
+  job_sort: 'job.latest_order',
+  tag_type_ids: number,
+): Promise<JobRecommendation[]> {
+  const json = await getWanted(
+    `/v4/jobs?country=${country}&job_sort=${job_sort}&tag_type_ids=${tag_type_ids}`,
+  )
   return json.data
 }
 

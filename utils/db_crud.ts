@@ -46,18 +46,17 @@ export const fetchDataFromWantedAPI = async (
   company: string,
   limit: number,
   offset: number,
-): Promise<[ThemeJob, { fetched: Date; requested: Date }]> => {
+): Promise<ThemeJob> => {
   const data = selectCachedDocumentByDocumentId(collectionName, 'theme')
   if (data) {
     console.log(`selectCachedDocumentByDocumentId`)
-    return data.then((res) => [res.get('data'), res.get('timestamp')])
+    return data.then((res) => res.get('data'))
   } else {
     console.log(`getThemesAssociatedJobs`)
-    const [data, timestamp] = await getThemesAssociatedJobs(company, limit, offset)
+    const [data, time] = await getThemesAssociatedJobs(company, limit, offset)
     await setDoc(doc(db, collectionName, 'theme'), {
       data: data,
-      timestamp: timestamp,
     })
-    return [data, timestamp]
+    return data
   }
 }

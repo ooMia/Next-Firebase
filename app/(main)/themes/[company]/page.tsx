@@ -5,7 +5,7 @@ import { DocumentData } from 'firebase/firestore'
 import { redirect, RedirectType } from 'next/navigation'
 
 export async function generateStaticParams() {
-  const docs = await readDocuments(undefined, 'wdList')
+  const docs = await readDocuments('wdList')
 
   let companies: any = []
   docs.forEach((d) => {

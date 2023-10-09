@@ -15,10 +15,6 @@ export default function Page({
         <p className={`border-x-2 border h-8 ml-6 mr-4`}></p>
         <MinorCategory majorCategory={params.MajorCategory?.at(0)} />
       </div>
-
-      {/*<MajorCategory default={params.MajorCategory} />*/}
-      {/*<MajorCategory default={params.MajorCategory} />*/}
-      {/*<MajorCategory default={params.MajorCategory} />*/}
     </aside>
   )
 }

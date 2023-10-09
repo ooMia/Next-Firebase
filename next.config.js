@@ -24,15 +24,21 @@ const nextConfig = {
       },
     ],
   },
-  async redirects() {
+  redirects: async () => {
     return [
       {
         source: '/',
-        destination: '/jobsfeed',
+        destination: '/dev',
+        permanent: true,
+      },
+      {
+        source: '/dev',
+        destination: '/dev/themes/kakaovc',
         permanent: true,
       },
     ]
   },
+  reactStrictMode: true,
   experimental: {
     serverActions: true,
   },

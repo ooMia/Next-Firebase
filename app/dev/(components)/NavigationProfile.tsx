@@ -2,14 +2,13 @@
 
 import Image from 'next/image'
 import { signOut, useSession } from 'next-auth/react'
-import Button2 from '@/components/Button2'
 import Kakao from '@/public/kakao.svg'
 import MenuIcon from '@mui/icons-material/Menu'
 import { DialogContext, DialogDispatchContext } from '@/contexts/DialogContext'
 import Link from 'next/link'
 import { useContext } from 'react'
 
-export default function BannerProfile() {
+export default function NavigationProfile() {
   const { data: session, status } = useSession()
 
   const dialogState = useContext(DialogContext)
@@ -20,30 +19,23 @@ export default function BannerProfile() {
     dialogsDispatch({ type: 'on' })
   }
 
-  const isAuthenticated = (
-    <Button2 key={'로그아웃'} href={''}>
-      <Image
-        priority={false}
-        className={`rounded-full w-fit border border-black`}
-        style={{
-          objectFit: 'fill',
-        }}
-        width={40}
-        height={40}
-        src={session?.user?.image ? session.user.image : Kakao}
-        alt={'?'}
-        onClick={() => signOut({ callbackUrl: '/' })}
-      />
-    </Button2>
-  )
-
   return (
-    <div className={`flex flex-row`}>
+    <div>
       <button className={`md:hidden`}>
         <MenuIcon onClick={() => menuDialog()} />
       </button>
+
       {status === 'authenticated' ? (
-        isAuthenticated
+        <div className={`relative w-[37.6px] h-[37.6px] rounded-full `}>
+          <Image
+            priority={false}
+            className={`rounded-full w-fit border border-black`}
+            fill
+            src={session?.user?.image ? session.user.image : Kakao}
+            alt={'?'}
+            onClick={() => signOut({ callbackUrl: '/' })}
+          />
+        </div>
       ) : (
         <Link href={`/api/auth/signin`}>
           <button
